@@ -52,7 +52,7 @@ const HomePage = () => {
             bg-background
           "
           >
-            Get Cypress Free
+            Get Scribble Free
           </Button>
         </div>
         <div
@@ -111,9 +111,9 @@ const HomePage = () => {
           before:absolute
         "
         >
-          {[...Array(2)].map((arr) => (
+          {[...Array(2)].map((_, index) => (
             <div
-              key={arr}
+              key={index}
               className="flex
                 flex-nowrap
                 animate-slide
@@ -142,6 +142,8 @@ const HomePage = () => {
           ))}
         </div>
       </section>
+
+      {/* Calendar */}
       <section
         className="px-4
         sm:px-6
@@ -185,6 +187,8 @@ const HomePage = () => {
           <Image src={Cal} alt="Banner" className="rounded-2xl" />
         </div>
       </section>
+
+      {/* Testimonials */}
       <section className="relative">
         <div
           className="w-full
@@ -267,6 +271,8 @@ const HomePage = () => {
           ))}
         </div>
       </section>
+
+      {/* Pricing */}
       <section
         className="mt-20
         px-4
@@ -296,7 +302,7 @@ const HomePage = () => {
                 "w-[300px] rounded-2xl dark:bg-black/40 background-blur-3xl relative",
                 {
                   "border-brand-primaryPurple/70":
-                    card.planType === PRICING_PLANS.proplan,
+                    card.planType === PRICING_PLANS.proPlan,
                 }
               )}
               cardHeader={
@@ -305,7 +311,7 @@ const HomePage = () => {
                   font-semibold
               "
                 >
-                  {card.planType === PRICING_PLANS.proplan && (
+                  {card.planType === PRICING_PLANS.proPlan && (
                     <>
                       <div
                         className="hidden dark:block w-full blur-[120px] rounded-full h-32
@@ -348,7 +354,7 @@ const HomePage = () => {
                     variant="btn-primary"
                     className="whitespace-nowrap w-full mt-4"
                   >
-                    {card.planType === PRICING_PLANS.proplan
+                    {card.planType === PRICING_PLANS.proPlan
                       ? "Go Pro"
                       : "Get Started"}
                   </Button>
@@ -364,7 +370,7 @@ const HomePage = () => {
                 "
                 >
                   <small>{card.highlightFeature}</small>
-                  {card.freatures.map((feature) => (
+                  {card.features.map((feature) => (
                     <li
                       key={feature}
                       className="flex
