@@ -1,18 +1,26 @@
+import { relations, sql } from "drizzle-orm";
 import {
-  pgTable,
-  uuid,
-  timestamp,
-  text,
-  jsonb,
-  integer,
   boolean,
+  integer,
+  jsonb,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
 } from "drizzle-orm/pg-core";
-import { prices, subscriptionStatus } from "../../../migrations/schema";
-import { sql } from "drizzle-orm";
+import {
+  prices,
+  products,
+  subscriptionStatus,
+  users,
+} from "../../../migrations/schema";
 
 export const workspaces = pgTable("workspaces", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+    mode: "string",
+  })
     .defaultNow()
     .notNull(),
   workspaceOwner: uuid("workspace_owner").notNull(),
@@ -113,3 +121,31 @@ export const subscriptions = pgTable("subscriptions", {
     mode: "string",
   }).default(sql`now()`),
 });
+
+export const collaborators = pgTable("collaborators", {
+  id: uuid("id").defaultRandom().primaryKey().notNull(),
+  workspaceId: uuid("workspace_id")
+    .notNull()
+    .references(() => workspaces.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at", {
+    withTimezone: true,
+    mode: "string",
+  })
+    .defaultNow()
+    .notNull(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+});
+
+//Dont Delete!!!
+export const productsRelations = relations(products, ({ many }) => ({
+  prices: many(prices),
+}));
+
+export const pricesRelations = relations(prices, ({ one }) => ({
+  product: one(products, {
+    fields: [prices.productId],
+    references: [products.id],
+  }),
+}));
